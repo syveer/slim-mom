@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Divider,
@@ -32,7 +32,6 @@ const ModalWindow = ({ isOpen, onClose }) => {
   const isLoading = useSelector(getIsLoading);
   const notAllowedProducts = useSelector(getNotAllowedProducts);
   const navigate = useNavigate();
-  // const dispatch = useDispatch(); // Remove unused dispatch if not needed
 
   const handleClick = () => {
     if (dailyRate === null) {
@@ -41,7 +40,6 @@ const ModalWindow = ({ isOpen, onClose }) => {
     }
 
     navigate('/registration');
-    // dispatch(getDailyRate(null)); // Ensure this action is correctly dispatched based on your logic
   };
 
   return (
