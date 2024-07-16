@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { Global } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 import { lazy, Suspense, useEffect } from 'react';
 import { Container } from '@chakra-ui/react';
@@ -10,6 +12,8 @@ import Loader from './Loader/Loader';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import PublicRestrictedRoute from './PublicStrictedRoute/PublicRestrictedRoute';
 import NotFound from '../pages/NotFound/NotFound';
+
+import globalStyles from '../components/Styled/GlobalStyles';
 
 const DiaryPage = lazy(() => import('pages/DiaryPage/DiaryPage'));
 const LogInPage = lazy(() => import('../pages/LogInPage/LogInPage'));
@@ -30,62 +34,68 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <Container
-      maxW={{ sm: '768px', md: '1280px' }}
-      position="relative"
-      pt={{ xs: '80px', lg: '151px' }}
-      px={{ xs: '16px', md: '32px', lg: '16px' }}
-    >
-      <Header />
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<Outlet />}>
-            <Route
-              index
-              element={
-                <PublicRestrictedRoute
-                  redirectTo="/calculator"
-                  children={<HomePage />}
-                />
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <PublicRestrictedRoute
-                  redirectTo="/calculator"
-                  children={<LogInPage />}
-                />
-              }
-            />
-            <Route
-              path="registration"
-              element={
-                <PublicRestrictedRoute
-                  redirectTo="/calculator"
-                  children={<RegistrationPage />}
-                />
-              }
-            />
-            <Route
-              path="calculator"
-              element={
-                <PrivateRoute redirectTo="/" children={<CalculatorPage />} />
-              }
-            />
-            <Route
-              path="diary"
-              element={
-                <PrivateRoute redirectTo="/login" children={<DiaryPage />} />
-              }
-            />
-            <Route path="uikit" element={<UiKit />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-      <Footer /> {/* Adaugă componenta Footer aici */}
-    </Container>
+    <>
+      <Global styles={globalStyles} />
+      <div className="wave" />
+      <div className="wave" />
+      <div className="wave" />
+      <Container
+        maxW={{ sm: '768px', md: '1280px' }}
+        position="relative"
+        pt={{ xs: '80px', lg: '151px' }}
+        px={{ xs: '16px', md: '32px', lg: '16px' }}
+      >
+        <Header />
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Outlet />}>
+              <Route
+                index
+                element={
+                  <PublicRestrictedRoute
+                    redirectTo="/calculator"
+                    children={<HomePage />}
+                  />
+                }
+              />
+              <Route
+                path="login"
+                element={
+                  <PublicRestrictedRoute
+                    redirectTo="/calculator"
+                    children={<LogInPage />}
+                  />
+                }
+              />
+              <Route
+                path="registration"
+                element={
+                  <PublicRestrictedRoute
+                    redirectTo="/calculator"
+                    children={<RegistrationPage />}
+                  />
+                }
+              />
+              <Route
+                path="calculator"
+                element={
+                  <PrivateRoute redirectTo="/" children={<CalculatorPage />} />
+                }
+              />
+              <Route
+                path="diary"
+                element={
+                  <PrivateRoute redirectTo="/login" children={<DiaryPage />} />
+                }
+              />
+              <Route path="uikit" element={<UiKit />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        <Footer /> {/* Adaugă componenta Footer aici */}
+      </Container>
+    </>
   );
 };
 

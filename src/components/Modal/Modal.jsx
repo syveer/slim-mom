@@ -11,8 +11,7 @@ import {
   ModalHeader,
   Text,
 } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import MainButton from 'components/Button/MainButton';
 import LogoSmall from 'components/Logo/SmallLogo';
@@ -30,7 +29,6 @@ import {
 const ModalWindow = ({ isOpen, onClose }) => {
   const dailyRate = useSelector(getDailyRate);
   const isLoading = useSelector(getIsLoading);
-  const notAllowedProducts = useSelector(getNotAllowedProducts);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -66,7 +64,7 @@ const ModalWindow = ({ isOpen, onClose }) => {
               to="/login"
               mr="16px"
             >
-              SIGIN IN
+              SIGN IN
             </Link>
             <Link
               _hover={{ textDecor: 'none' }}
@@ -82,7 +80,7 @@ const ModalWindow = ({ isOpen, onClose }) => {
         {isOpen && <GrayBar onClick={onClose} />}
         <Box maxW="409px" mx="auto">
           <ModalHeader fontSize="26px" textAlign="center">
-            Your recommended daily calorie intake is
+            Join us to see your recommended daily calorie intake!
           </ModalHeader>
         </Box>
         <ModalBody h="100%">
@@ -98,52 +96,27 @@ const ModalWindow = ({ isOpen, onClose }) => {
                 <Loader height={20} width={20} />
               </Box>
             ) : (
-              <>
-                <Box display="flex" justifyContent="center">
-                  <Text
-                    as="b"
-                    fontSize="48px"
-                    display="flex"
-                    alignItems="baseline"
-                    justifyContent="center"
-                    color="#264061"
-                  >
-                    {dailyRate}
-                    <Text fontSize="24px" ml="1">
-                      kcal
-                    </Text>
-                  </Text>
-                </Box>
-
-                <Divider w={{ xs: 'none', md: '330px' }} mx="auto" />
-                <Box
-                  position="relative"
-                  w={{ xs: 'none', md: '330px' }}
-                  mx="auto"
+              <Box
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Text
+                  as="b"
+                  fontSize="24px"
                   display="flex"
-                  flexDirection="column"
-                  alignItems="start"
+                  alignItems="baseline"
+                  justifyContent="center"
+                  color="#264061"
+                  textAlign="center"
+                  mb="20px"
                 >
-                  <Text
-                    as={'h3'}
-                    color="#212121"
-                    textAlign="center"
-                    w="100%"
-                    mt="12px"
-                    mb="20px"
-                  >
-                    Foods you should not eat
-                  </Text>
-                  {/* Render notAllowedProducts directly */}
-                  <ul>
-                    {notAllowedProducts.map((item, index) => (
-                      <li key={index}>
-                        {index + 1}. {item}
-                      </li>
-                    ))}
-                  </ul>
-                </Box>
-              </>
+                  Register now to find out the number of calories you need to
+                  lose weight and to see the foods you should avoid!
+                </Text>
+                <Divider w={{ xs: 'none', md: '330px' }} mx="auto" />
+              </Box>
             )}
           </Box>
         </ModalBody>

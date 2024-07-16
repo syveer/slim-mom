@@ -1,30 +1,30 @@
-import {Field, Form, Formik} from "formik";
+import { Field, Form, Formik } from 'formik';
 import {
   Box,
   Button,
-  Flex, FormControl,
+  Flex,
+  FormControl,
   Heading,
-  VStack
-} from "@chakra-ui/react";
-import InputField from "../../components/InputField/InputField";
-import authOperations from "../../redux/auth/authOperations";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {BgImg} from "./Registration.styled";
-import {customColors} from "../../theme/colors";
-import * as Yup from "yup";
-import {authSelectors} from "../../redux/auth/authSelectors";
-import {noop} from "../../utils/noop";
-import DiaryFormValidation from "../../components/DiaryAddProductForm/DiaryFormValidation/DiaryFormValidation";
+  VStack,
+} from '@chakra-ui/react';
+import InputField from '../../components/InputField/InputField';
+import authOperations from '../../redux/auth/authOperations';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { BgImg } from './Registration.styled';
+import { customColors } from '../../theme/colors';
+import * as Yup from 'yup';
+import { authSelectors } from '../../redux/auth/authSelectors';
+import { noop } from '../../utils/noop';
+import DiaryFormValidation from '../../components/DiaryAddProductForm/DiaryFormValidation/DiaryFormValidation';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator'; // Adjust the path as needed
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('This field is required'),
-  email: Yup.string()
-    .email('Invalid email')
-    .required('This field is required'),
+  email: Yup.string().email('Invalid email').required('This field is required'),
   password: Yup.string()
     .min(5, 'Too Short!')
     .max(50, 'Too Long!')
@@ -36,104 +36,138 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
   const registrationLoading = useSelector(authSelectors.registrationLoading);
   const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-  }
-  const onSubmit = (values) => {
-    const {email, password, name} = values;
-    dispatch(authOperations.register({email, password, username: name}))
-  }
+    name: '',
+    email: '',
+    password: '',
+  };
+  const onSubmit = values => {
+    const { email, password, name } = values;
+    dispatch(authOperations.register({ email, password, username: name }));
+  };
 
   return (
     <>
-      <BgImg/>
+      <BgImg />
       <Flex
-        w={{xs: '100%', md: 'auto'}}
+        w={{ xs: '100%', md: 'auto' }}
         justify="flex-start"
-        alignItems={{xs: 'flex-start', lg: 'center'}}
-        flexGrow='1'
-        pt={{xs: '38px', md: '150px'}}
-        pb={{xs: '50px', lg: '25px'}}
+        alignItems={{ xs: 'flex-start', lg: 'center' }}
+        flexGrow="1"
+        pt={{ xs: '38px', md: '150px' }}
+        pb={{ xs: '50px', lg: '25px' }}
       >
-        <Box
-          flexGrow='1'
-        >
+        <Box flexGrow="1">
           <Heading
-            as='h1' size='xs' mb='34px'
-            w={{xs: '100%', md: 'auto'}}
-            textAlign={{xs: 'center', md: 'left'}}
-            color={customColors.sun["100"]}
-            textTransform='uppercase'
-          >Registration</Heading>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-            {() => (
+            as="h1"
+            size="xs"
+            mb="34px"
+            w={{ xs: '100%', md: 'auto' }}
+            textAlign={{ xs: 'center', md: 'left' }}
+            color={customColors.sun['100']}
+            textTransform="uppercase"
+          >
+            Registration
+          </Heading>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            {({ values }) => (
               <Form>
-                <VStack spacing={7} align="flex-start" mb={{xs: '60px', lg: '60px'}}>
-
-                  <Field name="name">{({field, form}) => (
-                    <Box w={{xs: '100%', md: '240px'}}>
-                      <FormControl isInvalid={form.errors.email && form.touched.email}>
-                        <InputField
-                          labelName="Name *"
-                          type="text"
-                          name="name"
-                          handlerEvent={noop}
-                          // value={formik.values.name}
-                          required
-                          width="100%"
-                          {...field}
-                        />
-                        <DiaryFormValidation text={form.errors.email}/>
-                      </FormControl>
-                    </Box>
-                  )}
+                <VStack
+                  spacing={7}
+                  align="flex-start"
+                  mb={{ xs: '60px', lg: '60px' }}
+                >
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <Box w={{ xs: '100%', md: '240px' }}>
+                        <FormControl
+                          isInvalid={form.errors.email && form.touched.email}
+                        >
+                          <InputField
+                            labelName="Name *"
+                            type="text"
+                            name="name"
+                            handlerEvent={noop}
+                            // value={formik.values.name}
+                            required
+                            width="100%"
+                            {...field}
+                          />
+                          <DiaryFormValidation text={form.errors.email} />
+                        </FormControl>
+                      </Box>
+                    )}
                   </Field>
 
-                  <Field name="email">{({field, form}) => (
-                    <Box w={{xs: '100%', md: '240px'}}>
-                      <FormControl isInvalid={form.errors.email && form.touched.email}>
-                        <InputField
-                          labelName="Email *"
-                          type="text"
-                          name="email"
-                          handlerEvent={noop}
-                          // value={formik.values.email}
-                          required
-                          width="100%"
-                          {...field}
-                        />
-                        <DiaryFormValidation text={form.errors.email}/>
-                      </FormControl>
-                    </Box>
-                  )}
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <Box w={{ xs: '100%', md: '240px' }}>
+                        <FormControl
+                          isInvalid={form.errors.email && form.touched.email}
+                        >
+                          <InputField
+                            labelName="Email *"
+                            type="text"
+                            name="email"
+                            handlerEvent={noop}
+                            // value={formik.values.email}
+                            required
+                            width="100%"
+                            {...field}
+                          />
+                          <DiaryFormValidation text={form.errors.email} />
+                        </FormControl>
+                      </Box>
+                    )}
                   </Field>
-                  <Field name="password">{({field, form}) => (
-                    <Box w={{xs: '100%', md: '240px'}}>
-                      <FormControl isInvalid={form.errors.email && form.touched.email}>
-                        <InputField
-                          labelName="Password *"
-                          type="password"
-                          name="password"
-                          handlerEvent={noop}
-                          // value={formik.values.password}
-                          required
-                          width="100%"
-                          {...field}
-                        />
-                        <DiaryFormValidation text={form.errors.email}/>
-                      </FormControl>
-                    </Box>
-                  )}
+
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <Box w={{ xs: '100%', md: '240px' }}>
+                        <FormControl
+                          isInvalid={
+                            form.errors.password && form.touched.password
+                          }
+                        >
+                          <InputField
+                            labelName="Password *"
+                            type="password"
+                            name="password"
+                            handlerEvent={noop}
+                            // value={formik.values.password}
+                            required
+                            width="100%"
+                            {...field}
+                          />
+                          <PasswordStrengthIndicator password={field.value} />
+                          <DiaryFormValidation text={form.errors.password} />
+                        </FormControl>
+                      </Box>
+                    )}
                   </Field>
                 </VStack>
                 <Flex
                   gap={6}
-                  flexDirection={{xs: 'column', md: 'row'}}
-                  alignItems={{xs: 'center'}}
+                  flexDirection={{ xs: 'column', md: 'row' }}
+                  alignItems={{ xs: 'center' }}
                 >
-                  <Button variant={'outline'} type="button" onClick={() => navigate('/login')}>Login</Button>
-                  <Button variant={'primary'} type="submit" isLoading={registrationLoading}>Register</Button>
+                  <Button
+                    variant={'outline'}
+                    type="button"
+                    onClick={() => navigate('/login')}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant={'primary'}
+                    type="submit"
+                    isLoading={registrationLoading}
+                  >
+                    Register
+                  </Button>
                 </Flex>
               </Form>
             )}
