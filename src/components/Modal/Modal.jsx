@@ -21,7 +21,6 @@ import Loader from 'components/Loader/Loader';
 import {
   getDailyRate,
   getIsLoading,
-  getNotAllowedProducts,
 } from '../../redux/dailyRate/dailyRateSelectors';
 
 // Import or define TopGradient and BottomGradient components here if needed
